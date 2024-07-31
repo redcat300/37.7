@@ -1,0 +1,6 @@
+{% if ad.author == user %}
+    <form action="{% url 'delete_ad' ad.id %}" method="post">
+        {% csrf_token %}
+        <button type="submit">Delete Ad</button>
+    </form>
+{% endif %}

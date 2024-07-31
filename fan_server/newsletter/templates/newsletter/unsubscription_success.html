@@ -1,0 +1,12 @@
+{% extends "base.html" %}
+
+{% block title %}Unsubscription Successful{% endblock %}
+
+{% block content %}
+<div class="container">
+    <h2 class="text-center my-4">You have successfully unsubscribed from our newsletter.</h2>
+    <div class="text-center mt-4">
+        <a href="{% url 'category_list' %}" class="btn btn-primary">Back to Categories</a>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,17 @@
+{% extends "base.html" %}
+
+{% block title %}My Ads{% endblock %}
+
+{% block content %}
+<div class="container mt-4">
+    <h2>My Ads</h2>
+    <ul class="list-group">
+        {% for ad in ads %}
+            <li class="list-group-item d-flex justify-content-between align-items-center">
+                <a href="{% url 'ad_detail' ad.id %}">{{ ad.title }}</a>
+                <span>{{ ad.response_count }} responses</span>  <!-- Отображаем количество откликов -->
+            </li>
+        {% endfor %}
+    </ul>
+</div>
+{% endblock %}

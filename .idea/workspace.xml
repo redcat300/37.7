@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="SELECTIVE" />
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="e1485ae7-c745-4312-8e47-62a6e3d45fae" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/.idea/37.7.iml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/inspectionProfiles/Project_Default.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/inspectionProfiles/profiles_settings.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/modules.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/fan_server/__init__.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/fan_server/ads/forms.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/fan_server/ads/templates/ads/ad_detail.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/fan_server/ads/templates/ads/ad_responses.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/fan_server/ads/templates/ads/add_comment.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/fan_server/ads/templates/ads/category_ads.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/fan_server/ads/templates/ads/category_list.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/fan_server/ads/templates/ads/create_ad.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/fan_server/ads/templates/ads/create_response.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/fan_server/ads/templates/ads/delete_ad.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/fan_server/ads/templates/ads/user_ads.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/fan_server/db.sqlite3" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/fan_server/newsletter/forms.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/fan_server/newsletter/templates/newsletter/subscription_success.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/fan_server/newsletter/templates/newsletter/unsubscription_success.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/fan_server/newsletter/templates/send_newsletter.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/fan_server/newsletter/templates/subscribe.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/fan_server/newsletter/templates/unsubscribe.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/fan_server/newsletter/urls.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/fan_server/templates/base.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/fan_server/users/forms.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/fan_server/users/templates/registration/login.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/fan_server/users/templates/users/confirm_email.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/fan_server/users/templates/users/register.html" afterDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="Python Script" />
+        <option value="HTML File" />
+      </list>
+    </option>
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="ProjectColorInfo">{
+  &quot;customColor&quot;: &quot;&quot;,
+  &quot;associatedIndex&quot;: 3
+}</component>
+  <component name="ProjectId" id="2jyUPr6D5MRhbQ6yaLPjKduqtZp" />
+  <component name="ProjectLevelVcsManager" settingsEditedManually="true">
+    <ConfirmationsSetting value="2" id="Add" />
+  </component>
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;DefaultHtmlFileTemplate&quot;: &quot;HTML File&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;master&quot;,
+    &quot;last_opened_file_path&quot;: &quot;Z:/course python Skillfactory/Итоговый проект 37.7 (PJ-03)/37.7/fan_server/ads/templates&quot;
+  }
+}</component>
+  <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="Z:\course python Skillfactory\Итоговый проект 37.7 (PJ-03)\37.7\fan_server\ads\templates" />
+      <recent name="Z:\course python Skillfactory\Итоговый проект 37.7 (PJ-03)\37.7\fan_server\users\templates" />
+    </key>
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="Z:\course python Skillfactory\Итоговый проект 37.7 (PJ-03)\37.7\fan_server\newsletter\templates\newsletter" />
+      <recent name="Z:\course python Skillfactory\Итоговый проект 37.7 (PJ-03)\37.7\fan_server\ads" />
+      <recent name="Z:\course python Skillfactory\Итоговый проект 37.7 (PJ-03)\37.7\fan_server" />
+      <recent name="Z:\course python Skillfactory\Итоговый проект 37.7 (PJ-03)\37.7\fan_server\ads\templates\ads" />
+      <recent name="Z:\course python Skillfactory\Итоговый проект 37.7 (PJ-03)\37.7\fan_server\users\templates\registration" />
+    </key>
+  </component>
+  <component name="SharedIndexes">
+    <attachedChunks>
+      <set>
+        <option value="bundled-python-sdk-975db3bf15a3-31b6be0877a2-com.jetbrains.pycharm.community.sharedIndexes.bundled-PC-241.18034.82" />
+      </set>
+    </attachedChunks>
+  </component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="e1485ae7-c745-4312-8e47-62a6e3d45fae" name="Changes" comment="" />
+      <created>1722358788363</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1722358788363</updated>
+    </task>
+    <servers />
+  </component>
+</project>

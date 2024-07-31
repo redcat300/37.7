@@ -1,0 +1,72 @@
+{% extends "base.html" %}
+
+{% block title %}{{ ad.title }}{% endblock %}
+
+{% block content %}
+<div class="container mt-4">
+    <h2>{{ ad.title }}</h2>
+    <p>{{ ad.content }}</p>
+
+    {% if ad.image %}
+        <img src="{{ ad.image.url }}" alt="{{ ad.title }}" class="img-fluid mb-3">
+    {% endif %}
+
+    {% if ad.video %}
+        <video controls class="img-fluid mb-3">
+            <source src="{{ ad.video.url }}" type="video/mp4">
+            Your browser does not support the video tag.
+        </video>
+    {% endif %}
+
+    <p>Author: {{ ad.author.username }}</p>
+    <p>Likes: {{ ad.likes.count }}</p>
+
+    <a href="{% url 'toggle_like' ad.id %}" class="btn btn-outline-primary btn-sm">
+        {% if request.user in ad.likes.all %}
+            Unlike
+        {% else %}
+            Like
+        {% endif %}
+    </a>
+
+    {% if ad.author == request.user %}
+        <form action="{% url 'delete_ad' ad.id %}" method="post" style="display: inline;">
+            {% csrf_token %}
+            <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm('Are you sure you want to delete this ad?');">Delete Ad</button>
+        </form>
+    {% endif %}
+
+    <div class="mt-4">
+        <h3>Comments</h3>
+        <ul class="list-group">
+            {% for comment in comments %}
+                <li class="list-group-item">
+                    <p>{{ comment.content }}</p>
+                    <small>By {{ comment.author.username }} on {{ comment.created_at }}</small>
+                    {% if comment.image %}
+                        <img src="{{ comment.image.url }}" alt="Comment image" class="img-fluid mb-3">
+                    {% endif %}
+                    {% if comment.video %}
+                        <video controls class="img-fluid mb-3">
+                            <source src="{{ comment.video.url }}" type="video/mp4">
+                            Your browser does not support the video tag.
+                        </video>
+                    {% endif %}
+                    {% if comment.author == request.user or ad.author == request.user %}
+                        <a href="{% url 'delete_comment' comment.id %}" class="btn btn-outline-danger btn-sm">Delete</a>
+                    {% endif %}
+                </li>
+            {% endfor %}
+        </ul>
+    </div>
+
+    <div class="mt-4">
+        <h3>Leave a Comment</h3>
+        <form method="post" action="{% url 'ad_detail' ad.id %}" enctype="multipart/form-data">
+            {% csrf_token %}
+            {{ comment_form.as_p }}
+            <button type="submit" class="btn btn-primary">Submit Comment</button>
+        </form>
+    </div>
+</div>
+{% endblock %}

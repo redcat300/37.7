@@ -1,0 +1,138 @@
+{% extends "base.html" %}
+
+{% block title %}{{ category }} Ads{% endblock %}
+
+{% block content %}
+<div class="container">
+    <h2 class="text-center my-4">{{ category }} Ads</h2>
+    <div class="text-center mb-4">
+        <a href="{% url 'create_ad' %}?category={{ category }}" class="btn btn-primary">Add Post</a>
+        {% if category in user_subscriptions %}
+            <a href="{% url 'unsubscribe' category %}" class="btn btn-danger">Unsubscribe</a>
+        {% else %}
+            <a href="{% url 'subscribe' category %}" class="btn btn-primary">Subscribe</a>
+        {% endif %}
+    </div>
+    {% for ad in ads %}
+        <div class="card mb-4">
+            <div class="card-body">
+                <h2 class="card-title">{{ ad.title }}</h2>
+                <p class="card-text">{{ ad.content }}</p>
+                {% if ad.image %}
+                    <img src="{{ ad.image.url }}" alt="{{ ad.title }}" class="img-fluid mb-3">
+                {% endif %}
+                {% if ad.video %}
+                    <video controls class="img-fluid mb-3">
+                        <source src="{{ ad.video.url }}" type="video/mp4">
+                        Your browser does not support the video tag.
+                    </video>
+                {% endif %}
+                <p class="card-text">Author: {{ ad.author.username }}</p>
+                <p class="card-text">Likes: {{ ad.likes.count }}</p>
+                <a href="{% url 'toggle_like' ad.id %}" class="btn btn-outline-primary btn-sm">
+                    {% if request.user in ad.likes.all %}
+                        Unlike
+                    {% else %}
+                        Like
+                    {% endif %}
+                </a>
+                {% if ad.author == request.user %}
+                    <form action="{% url 'delete_ad' ad.id %}" method="post" style="display: inline;">
+                        {% csrf_token %}
+                        <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm('Are you sure you want to delete this ad?');">Delete Ad</button>
+                    </form>
+                {% endif %}
+            </div>
+            <div class="card-footer">
+                <h3 class="mb-3">Comments:</h3>
+                {% for comment in ad.comments.all %}
+                    <div class="comment card mb-2" id="comment-{{ comment.id }}">
+                        <div class="card-body">
+                            <div class="comment-author">{{ comment.author.username }}</div>
+                            <div class="comment-content">{{ comment.content }}</div>
+                            {% if comment.image %}
+                                <img src="{{ comment.image.url }}" alt="Comment image" class="img-fluid mb-3">
+                            {% endif %}
+                            {% if comment.video %}
+                                <video controls class="img-fluid mb-3">
+                                    <source src="{{ comment.video.url }}" type="video/mp4">
+                                    Your browser does not support the video tag.
+                                </video>
+                            {% endif %}
+                            {% if comment.author == request.user %}
+                                <a href="javascript:void(0);" onclick="editComment({{ comment.id }});" class="btn btn-outline-secondary btn-sm">Edit</a>
+                                <a href="{% url 'delete_comment' comment.id %}" class="btn btn-outline-danger btn-sm">Delete</a>
+                            {% endif %}
+                        </div>
+                    </div>
+                {% endfor %}
+                <form method="post" action="{% url 'add_comment' ad.id %}" enctype="multipart/form-data" class="mb-3">
+                    {% csrf_token %}
+                    {{ form.as_p }}
+                    <button type="submit" class="btn btn-success">Add Comment</button>
+                </form>
+            </div>
+        </div>
+    {% empty %}
+        <p class="text-center">No ads found in this category.</p>
+    {% endfor %}
+</div>
+
+<script>
+function editComment(commentId) {
+    const commentDiv = document.getElementById(`comment-${commentId}`);
+    const commentContent = commentDiv.querySelector('.comment-content').innerText;
+
+    commentDiv.innerHTML = `
+        <form id="edit-comment-form-${commentId}" method="post" enctype="multipart/form-data" onsubmit="submitEditComment(${commentId}); return false;" class="mb-3">
+            <textarea name="content" class="form-control mb-2">${commentContent}</textarea>
+            <input type="file" name="image" class="form-control mb-2">
+            <input type="file" name="video" class="form-control mb-2">
+            <button type="submit" class="btn btn-primary">Save</button>
+        </form>
+    `;
+}
+
+function submitEditComment(commentId) {
+    const form = document.getElementById(`edit-comment-form-${commentId}`);
+    const formData = new FormData(form);
+    const csrfToken = document.querySelector('input[name="csrfmiddlewaretoken"]').value;
+
+    fetch(`/comment/${commentId}/edit/`, {
+        method: 'POST',
+        headers: {
+            'X-CSRFToken': csrfToken
+        },
+        body: formData
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.success) {
+            const commentDiv = document.getElementById(`comment-${commentId}`);
+            commentDiv.innerHTML = `
+                <div class="comment-author">${data.author}</div>
+                <div class="comment-content">${data.content}</div>
+                <a href="javascript:void(0);" onclick="editComment(${commentId});" class="btn btn-outline-secondary btn-sm">Edit</a>
+                <a href="/comment/${commentId}/delete/" class="btn btn-outline-danger btn-sm">Delete</a>
+            `;
+            if (data.image) {
+                commentDiv.innerHTML += `<img src="${data.image}" alt="Comment image" class="img-fluid mb-3">`;
+            }
+            if (data.video) {
+                commentDiv.innerHTML += `
+                    <video controls class="img-fluid mb-3">
+                        <source src="${data.video}" type="video/mp4">
+                        Your browser does not support the video tag.
+                    </video>
+                `;
+            }
+        } else {
+            alert('Error saving comment.');
+        }
+    })
+    .catch(error => {
+        console.error('Error:', error);
+    });
+}
+</script>
+{% endblock %}
