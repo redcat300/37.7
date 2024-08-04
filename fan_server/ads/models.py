@@ -1,6 +1,7 @@
 from django.db import models
 from django.conf import settings
 from users.models import CustomUser
+from ckeditor.fields import RichTextField
 
 CATEGORY_CHOICES = [
     ('TANKS', 'Танки'),
@@ -17,13 +18,11 @@ CATEGORY_CHOICES = [
 
 class Ad(models.Model):
     title = models.CharField(max_length=200)
-    content = models.TextField()
+    content = RichTextField()
     category = models.CharField(max_length=20, choices=CATEGORY_CHOICES)
     author = models.ForeignKey(CustomUser, on_delete=models.CASCADE, null=True)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
-    image = models.ImageField(upload_to='ads/images/', null=True, blank=True)
-    video = models.FileField(upload_to='ads/videos/', null=True, blank=True)
 
     def __str__(self):
         return self.title

@@ -68,5 +68,31 @@
             <button type="submit" class="btn btn-primary">Submit Comment</button>
         </form>
     </div>
+
+    <!-- Раздел для откликов -->
+    <div class="mt-4">
+        <h3>Responses</h3>
+        <ul class="list-group">
+            {% for response in ad.responses.all %}
+                <li class="list-group-item">
+                    <p>{{ response.content }}</p>
+                    <small>By {{ response.author.username }} on {{ response.created_at }}</small>
+                    {% if response.author == request.user or ad.author == request.user %}
+                        <a href="{% url 'delete_response' response.id %}" class="btn btn-outline-danger btn-sm">Delete</a>
+                    {% endif %}
+                </li>
+            {% endfor %}
+        </ul>
+    </div>
+
+    <!-- Форма для отправки откликов -->
+    <div class="mt-4">
+        <h3>Leave a Response</h3>
+        <form method="post" action="{% url 'add_response' ad.id %}">
+            {% csrf_token %}
+            {{ response_form.as_p }}
+            <button type="submit" class="btn btn-primary">Submit Response</button>
+        </form>
+    </div>
 </div>
 {% endblock %}

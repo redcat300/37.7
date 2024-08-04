@@ -40,34 +40,32 @@ def create_ad(request):
     return render(request, 'ads/create_ad.html', {'form': form})
 
 
-@login_required
 def ad_detail(request, ad_id):
     ad = get_object_or_404(Ad, id=ad_id)
-    responses = ad.responses.all()
+    comments = ad.comments.all()
+    comment_form = CommentForm()
     response_form = ResponseForm()
-
     if request.method == 'POST':
-        response_form = ResponseForm(request.POST)
-        if response_form.is_valid():
-            response = response_form.save(commit=False)
-            response.ad = ad
-            response.author = request.user
-            response.save()
-
-
-            send_mail(
-                'New Response to Your Ad',
-                f'You have a new response to your ad "{ad.title}".',
-                settings.DEFAULT_FROM_EMAIL,
-                [ad.author.email],
-                fail_silently=False,
-            )
-
-            return redirect('ad_detail', ad_id=ad.id)
-
+        if 'content' in request.POST:
+            comment_form = CommentForm(request.POST)
+            if comment_form.is_valid():
+                comment = comment_form.save(commit=False)
+                comment.ad = ad
+                comment.author = request.user
+                comment.save()
+                return redirect('ad_detail', ad_id=ad.id)
+        else:
+            response_form = ResponseForm(request.POST)
+            if response_form.is_valid():
+                response = response_form.save(commit=False)
+                response.ad = ad
+                response.author = request.user
+                response.save()
+                return redirect('ad_detail', ad_id=ad.id)
     return render(request, 'ads/ad_detail.html', {
         'ad': ad,
-        'responses': responses,
+        'comments': comments,
+        'comment_form': comment_form,
         'response_form': response_form,
     })
 @login_required
@@ -186,17 +184,19 @@ def ad_responses(request, ad_id):
 
 @login_required
 def accept_response(request, response_id):
-    response = get_object_or_404(Response, id=response_id, ad__author=request.user)
-    response.accepted = True
-    response.save()
-    send_mail(
-        'Response Accepted',
-        f'Your response to the ad "{response.ad.title}" has been accepted.',
-        settings.DEFAULT_FROM_EMAIL,
-        [response.author.email],
-        fail_silently=False,
-    )
-    return redirect('ad_responses', ad_id=response.ad.id)
+    response = get_object_or_404(Response, id=response_id)
+    if response.ad.author == request.user:
+        response.accepted = True
+        response.save()
+        # Отправка уведомления
+        send_mail(
+            'Your response was accepted',
+            f'Your response to the ad "{response.ad.title}" was accepted.',
+            settings.DEFAULT_FROM_EMAIL,
+            [response.author.email],
+            fail_silently=False,
+        )
+    return redirect('private_page')
 
 @login_required
 def delete_response(request, response_id):
@@ -220,3 +220,47 @@ def create_response(request, ad_id):
     else:
         form = ResponseForm()
     return render(request, 'ads/create_response.html', {'form': form, 'ad': ad})
+
+@login_required
+def private_page(request):
+    ads = Ad.objects.filter(author=request.user)
+    selected_ad = request.GET.get('ad')
+    if selected_ad:
+        responses = ads.get(id=selected_ad).responses.all()
+    else:
+        responses = []
+
+    return render(request, 'ads/private_page.html', {
+        'ads': ads,
+        'responses': responses,
+    })
+
+def accept_response(request, response_id):
+    response = get_object_or_404(Response, id=response_id)
+    response.status = 'accepted'
+    response.save()
+
+    # Отправка уведомления по e-mail
+    send_mail(
+        'Ваш отклик принят!',
+        'Ваш отклик на объявление "{}" был принят.'.format(response.ad.title),
+        'from@example.com',
+        [response.author.email],
+        fail_silently=False,
+    )
+    return redirect('private_page')
+
+@login_required
+def add_response(request, ad_id):
+    ad = get_object_or_404(Ad, id=ad_id)
+    if request.method == 'POST':
+        form = ResponseForm(request.POST)
+        if form.is_valid():
+            response = form.save(commit=False)
+            response.ad = ad
+            response.author = request.user
+            response.save()
+            return redirect('ad_detail', ad_id=ad.id)
+    else:
+        form = ResponseForm()
+    return render(request, 'ads/add_response.html', {'form': form, 'ad': ad})

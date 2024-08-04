@@ -1,20 +1,10 @@
 {% extends "base.html" %}
 
-{% block title %}Responses for {{ ad.title }}{% endblock %}
-
 {% block content %}
-<div class="container mt-4">
-    <h2>Responses for {{ ad.title }}</h2>
-    <ul class="list-group">
-        {% for response in responses %}
-            <li class="list-group-item">
-                <p>{{ response.content }}</p>
-                <small>By {{ response.author.username }} on {{ response.created_at }}</small>
-                {% if response.author == request.user or ad.author == request.user %}
-                    <a href="{% url 'delete_comment' response.id %}" class="btn btn-outline-danger btn-sm">Delete</a>
-                {% endif %}
-            </li>
-        {% endfor %}
-    </ul>
-</div>
+<h2>Отклик на объявление: {{ ad.title }}</h2>
+<form method="post">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit" class="btn btn-primary">Отправить отклик</button>
+</form>
 {% endblock %}
